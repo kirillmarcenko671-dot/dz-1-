@@ -1,0 +1,337 @@
+// ===== ПЕРЕМЕННЫЕ =====
+$primary: #ff6b8b;
+$secondary: #ffd166;
+$accent: #a8e6cf;
+$light: #fff9f2;
+$dark: #2d3047;
+$text: #333333;
+
+$shadow: 0 5px 15px rgba(0,0,0,0.1);
+$shadow-hover: 0 10px 30px rgba(0,0,0,0.15);
+$radius: 12px;
+$transition: all 0.3s ease;
+
+// ===== СБРОС И БАЗА =====
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: $text;
+  background-color: $light;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+// ===== ОСНОВНАЯ ГРИД-СЕТКА =====
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  // Мобильная сетка (1 колонка)
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "about"
+    "products"
+    "reviews"
+    "order"
+    "contacts";
+  gap: 30px;
+  
+  // Планшет (768px+)
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-areas:
+      "about about about about about about"
+      "products products products products products products"
+      "reviews reviews reviews order order order"
+      "contacts contacts contacts contacts contacts contacts";
+  }
+  
+  // Десктоп (1024px+)
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas:
+      "about about about about about about about about about about about about"
+      "products products products products products products products products reviews reviews reviews reviews"
+      "products products products products products products products products order order order order"
+      "contacts contacts contacts contacts contacts contacts contacts contacts contacts contacts contacts contacts";
+  }
+}
+
+// ===== ОБЩИЕ СТИЛИ СЕКЦИЙ =====
+section {
+  background: white;
+  border-radius: $radius;
+  padding: 30px;
+  box-shadow: $shadow;
+  transition: $transition;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-hover;
+  }
+  
+  h2 {
+    color: $dark;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid $secondary;
+  }
+  
+  p {
+    margin-bottom: 15px;
+  }
+}
+
+// ===== СЕКЦИЯ "О НАС" =====
+#about {
+  grid-area: about;
+  
+  strong {
+    color: $primary;
+  }
+  
+  em {
+    color: $secondary;
+    font-style: italic;
+  }
+  
+  ul {
+    margin: 20px 0;
+    padding-left: 20px;
+    
+    li {
+      margin-bottom: 10px;
+      padding-left: 10px;
+      position: relative;
+      
+      &::before {
+        content: "•";
+        color: $accent;
+        font-size: 1.5rem;
+        position: absolute;
+        left: -10px;
+        top: -5px;
+      }
+    }
+  }
+}
+
+// ===== СЕКЦИЯ "ТОРТЫ" (ГРИД В ГРИДЕ) =====
+#products {
+  grid-area: products;
+  
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  article {
+    background: linear-gradient(135deg, white 0%, #fffaf7 100%);
+    border: 1px solid rgba($primary, 0.1);
+    border-radius: 10px;
+    padding: 25px;
+    
+    h3 {
+      color: $dark;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    
+    p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    strong {
+      color: $primary;
+      font-size: 1.2rem;
+      display: block;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px dashed rgba($secondary, 0.3);
+    }
+  }
+}
+
+// ===== СЕКЦИЯ "ОТЗЫВЫ" =====
+#reviews {
+  grid-area: reviews;
+  
+  blockquote {
+    background: rgba($accent, 0.1);
+    border-radius: $radius;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-left: 4px solid $secondary;
+    
+    p {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 15px;
+    }
+    
+    cite {
+      display: block;
+      text-align: right;
+      color: $primary;
+      font-weight: bold;
+      font-style: normal;
+      
+      &::before {
+        content: "— ";
+      }
+    }
+  }
+}
+
+// ===== СЕКЦИЯ "ЗАКАЗ" =====
+#order {
+  grid-area: order;
+  
+  ol {
+    list-style: none;
+    counter-reset: step;
+    
+    li {
+      counter-increment: step;
+      padding: 15px 15px 15px 60px;
+      margin-bottom: 20px;
+      background: rgba($secondary, 0.1);
+      border-radius: 8px;
+      position: relative;
+      
+      &::before {
+        content: counter(step);
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 35px;
+        height: 35px;
+        background: $primary;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// ===== СЕКЦИЯ "КОНТАКТЫ" (ГРИД ВНУТРИ) =====
+#contacts {
+  grid-area: contacts;
+  
+  address {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    p {
+      background: rgba($light, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 0;
+      border-left: 4px solid $accent;
+      
+      a {
+        color: $primary;
+        text-decoration: none;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// ===== ФУТЕР (ФЛЕКС) =====
+footer {
+  background: $dark;
+  color: white;
+  padding: 40px 20px;
+  margin-top: 60px;
+  text-align: center;
+  
+  p {
+    margin-bottom: 15px;
+  }
+  
+  a {
+    color: $secondary;
+    text-decoration: none;
+    margin: 0 10px;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ===== АНИМАЦИИ =====
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+  
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// ===== АДАПТИВНОСТЬ =====
+@media (max-width: 767px) {
+  body {
+    padding: 15px;
+  }
+  
+  section {
+    padding: 20px;
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  #products article {
+    padding: 20px;
+  }
+}
